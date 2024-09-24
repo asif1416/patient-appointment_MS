@@ -1,67 +1,67 @@
 <?php
+class mydb {
+    public $DBHostName = "";
+    public $DBUserName = "";
+    public $DBPassword = "";
+    public $DBName = "";
 
+    function __construct() {
+        $this->DBHostName = "localhost";
+        $this->DBUserName = "root";
+        $this->DBPassword = "";
+        $this->DBName = "mydb";  
+    }
 
-class mydb{
-public  $DBHostName="";
-public $DBUserName="";
-public $DBPassword="";
-public $DBName="";
-function __construct(){
- $this->DBHostName="localhost";
- $this->DBUserName="root";
- $this->DBPassword="";
- $this->DBName="mydb";
+    function createConObject() {
+        return new mysqli($this->DBHostName, $this->DBUserName, $this->DBPassword, $this->DBName);
+    }
+
+    function closeCon($conn) {
+        $conn->close();
+    }
+
+    // Insert appointment
+    function insertAppointment($conn, $table, $patient_name, $doctor_name, $appointment_date, $appointment_time, $reason) {
+        $query = "INSERT INTO $table (patient_name, doctor_name, appointment_date, appointment_time, reason) 
+                  VALUES ('$patient_name', '$doctor_name', '$appointment_date', '$appointment_time', '$reason')";
+        $result = $conn->query($query);
+        if ($result === TRUE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Show appointments by condition
+    function showAppointments($conn, $table, $condition) {
+        $query = "SELECT * FROM $table WHERE $condition";
+        $result = $conn->query($query);
+        return $result;
+    }
+
+    // Update an appointment by ID
+    function updateAppointmentDateAndTime($conn, $table, $id, $appointment_date, $appointment_time) {
+        $query = "UPDATE $table SET 
+                  appointment_date = '$appointment_date', 
+                  appointment_time = '$appointment_time'
+                  WHERE id = $id";
+
+        return $conn->query($query) === TRUE;
+    }
+
+    // Delete appointment by ID
+    function deleteAppointment($conn, $table, $id) {
+        $query = "DELETE FROM $table WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);  // Bind the appointment ID as an integer
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+
+        $stmt->close();  // Close the prepared statement
+    }
 }
-
-function createConObject(){
-    return new mysqli($this->DBHostName, $this->DBUserName, $this->DBPassword, 
-    $this->DBName);
-}
-
-function insertOrder($conn,$table,$email, $password, $filename,$product, $quantity ){
-$qrystring="INSERT INTO $table (email, password, filename, product, quantity) 
-VALUES ('$email', '$password', '$filename', '$product', $quantity)";
-$result = $conn->query($qrystring);
-if($result === false)
-{
-    return $conn->error;
-}
-else{
-    return $result;
-}
-}
-function showOrderById($conn,$table,$orderid){
-    $qrystring="SELECT * FROM $table WHERE id = '$orderid'";
-    $result= $conn->query($qrystring);
-    return $result;
-}
-function updateOrder($conn,$table,$orderid,$quantity){
-  
-    $qrystring="UPDATE $table SET quantity = '$quantity' WHERE id='$orderid'";
-    $result= $conn->query($qrystring);
-    return $result;
-}
-function createUser($conn,$table, $name, $email, $password){
-    $querystring="INSERT INTO $table (name,email, password) VALUES ('$name','$email', '$password')";
-    $result=$conn->query($querystring);
-    return $result;
-}
-function login($conn,$table,$email){
-    $querystring="SELECT * FROM $table WHERE email = '$email'";
-    $result=$conn->query($querystring);
-    return $result;
-}
-
-
-
-function closeCon($conn)
-{
- $conn->close();
-}
-
-}
-
-
-
-
 ?>

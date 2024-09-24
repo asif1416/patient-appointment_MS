@@ -1,3 +1,7 @@
+<?php
+require '../control/insertAppointControl.php'; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,15 +14,15 @@
 
 <h2>Doctor Appointment Form</h2>
 
-<form action="#">
+<form action="#" method="POST">
     <label for="patientName">Patient Name:</label>
     <input type="text" id="patientName" name="patientName" placeholder="Your name..">
 
     <label for="doctorName">Doctor Name:</label>
     <select id="doctorName" name="doctorName">
-        <option value="drJohnDoe">Dr. John Doe</option>
-        <option value="drJaneSmith">Dr. Jane Smith</option>
-        <option value="drAlexJohnson">Dr. Alex Johnson</option>
+        <option value="Dr. John Doe">Dr. John Doe</option>
+        <option value="Dr. Jane Smith">Dr. Jane Smith</option>
+        <option value="Dr. Alex Johnson">Dr. Alex Johnson</option>
     </select>
 
     <label for="appointmentDate">Appointment Date:</label>
@@ -30,8 +34,10 @@
     <label for="reason">Reason for Appointment:</label>
     <textarea id="reason" name="reason"></textarea>
 
-    <button type="submit">Book Appointment</button>
+    <!-- Add a name attribute to the button -->
+    <button type="submit" name="Submit">Book Appointment</button>
 </form>
+
 
 </body>
 </html>
