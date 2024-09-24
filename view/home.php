@@ -14,9 +14,10 @@ require '../control/insertAppointControl.php';
 
 <h2>Doctor Appointment Form</h2>
 
-<form action="#" method="POST">
+<form action="#" method="POST" onsubmit="return formValidation();">
     <label for="patientName">Patient Name:</label>
     <input type="text" id="patientName" name="patientName" placeholder="Your name..">
+    <span id="patientNameError" style="color:red;"></span> <!-- Error message -->
 
     <label for="doctorName">Doctor Name:</label>
     <select id="doctorName" name="doctorName">
@@ -27,17 +28,20 @@ require '../control/insertAppointControl.php';
 
     <label for="appointmentDate">Appointment Date:</label>
     <input type="date" id="appointmentDate" name="appointmentDate">
+    <span id="appointmentDateError" style="color:red;"></span> <!-- Error message -->
 
     <label for="appointmentTime">Appointment Time:</label>
     <input type="time" id="appointmentTime" name="appointmentTime">
+    <span id="appointmentTimeError" style="color:red;"></span> <!-- Error message -->
 
     <label for="reason">Reason for Appointment:</label>
     <textarea id="reason" name="reason"></textarea>
+    <span id="reasonError" style="color:red;"></span> <!-- Error message -->
 
-    <!-- Add a name attribute to the button -->
-    <button type="submit" name="Submit">Book Appointment</button>
+    <button type="submit" name="Submit" id="submit">Book Appointment</button>
 </form>
+<p id="show"></p>
 
-
+<script src="../js/script.js"></script>
 </body>
 </html>

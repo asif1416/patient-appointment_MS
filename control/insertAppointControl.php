@@ -46,8 +46,6 @@ if (isset($_POST["Submit"])) {
         } 
 
         $mydb->closeCon($conn); 
-    } else {
-        echo "**Please fill up the required fields**";
-    }
+    } 
 }
 ?>
