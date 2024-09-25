@@ -28,15 +28,15 @@ require '../control/insertAppointControl.php';
 
     <label for="appointmentDate">Appointment Date:</label>
     <input type="date" id="appointmentDate" name="appointmentDate">
-    <span id="appointmentDateError" style="color:red;"></span> <!-- Error message -->
+    <span id="appointmentDateError"></span> <!-- Error message -->
 
     <label for="appointmentTime">Appointment Time:</label>
     <input type="time" id="appointmentTime" name="appointmentTime">
-    <span id="appointmentTimeError" style="color:red;"></span> <!-- Error message -->
+    <span id="appointmentTimeError" ></span> <!-- Error message -->
 
     <label for="reason">Reason for Appointment:</label>
     <textarea id="reason" name="reason"></textarea>
-    <span id="reasonError" style="color:red;"></span> <!-- Error message -->
+    <span id="reasonError" ></span> <!-- Error message -->
 
     <button type="submit">Book Appointment</button>
 </form>

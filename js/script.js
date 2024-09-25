@@ -60,31 +60,26 @@ function checkReason() {
   return true;
 }
 
-// Submit the form using AJAX without reloading the page
-function submitForm() {
+function submitForm(event) {
+  event.preventDefault();
 
-
-  // Validate the form fields first
   if (!formValidation()) {
       return false;
   }
 
   var formData = new FormData(document.getElementById('appointmentForm'));
 
-  var xhr = new XMLHttpRequest();
+  var xhttp = new XMLHttpRequest();
   
-  xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-          document.getElementById('show').innerHTML = xhr.responseText;
-          document.getElementById('appointmentForm').reset();
+  xhttp.onreadystatechange = function () {
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+          document.getElementById('show').innerHTML = this.responseText;
+
       }
   };
 
-  xhr.open("POST", "../control/insertAppointControl.php", true);
-
-  xhr.send(formData);
-
-  return false;
+  xhttp.open("POST", "../control/insertAppointControl.php", true);
+  xhttp.send(formData);
 }
 
 

@@ -1,51 +1,22 @@
 <?php
-include '../model/mydb.php';
+require '../model/mydb.php';
 
-$patientNameMsg = "";
-$doctorNameMsg = "";
-$appointmentDateMsg = "";
-$appointmentTimeMsg = "";
-$reasonMsg = "";
-$hasError = 0;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Log the received data for debugging
 
-if (isset($_POST["Submit"])) {
-    if (empty($_POST["patientName"])) {
-        $patientNameMsg = "Patient Name must not be empty";
-        $hasError = 1;
-    }
+    $patientName = $_POST['patientName'];
+    $doctorName = $_POST['doctorName'];
+    $appointmentDate = $_POST['appointmentDate'];
+    $appointmentTime = $_POST['appointmentTime'];
+    $reason = $_POST['reason'];
 
-    if (empty($_POST["doctorName"])) {
-        $doctorNameMsg = "Please select a doctor";
-        $hasError = 1;
-    }
+    $mydb = new mydb();
+    $conn = $mydb->createConObject();
+    $table = 'appointments';
 
-    if (empty($_POST["appointmentDate"])) {
-        $appointmentDateMsg = "Appointment Date must not be empty";
-        $hasError = 1;
-    }
+    // Insert the appointment
+    $result = $mydb->insertAppointment($conn, $table, $patientName, $doctorName, $appointmentDate, $appointmentTime, $reason);
 
-    if (empty($_POST["appointmentTime"])) {
-        $appointmentTimeMsg = "Appointment Time must not be empty";
-        $hasError = 1;
-    }
-
-    if (empty($_POST["reason"])) {
-        $reasonMsg = "Please provide a reason for the appointment";
-        $hasError = 1;
-    }
-
-    if ($hasError == 0) {
-        $mydb = new mydb();
-        $conn = $mydb->createConObject();  
-        $table = "appointments";  
-
-        $result = $mydb->insertAppointment($conn,$table,$_POST["patientName"],$_POST["doctorName"],$_POST["appointmentDate"],$_POST["appointmentTime"],$_POST["reason"]);
-
-        if (!$result) {
-            echo "Failed to create appointment.";
-        } 
-
-        $mydb->closeCon($conn); 
-    } 
-}
+    $mydb->closeCon($conn);
+} 
 ?>

@@ -26,21 +26,20 @@ class mydb {
         $conn->close();
     }
 
-    // Insert appointment using prepared statements
-    function insertAppointment($conn, $table, $patient_name, $doctor_name, $appointment_date, $appointment_time, $reason) {
-        $query = "INSERT INTO $table (patient_name, doctor_name, appointment_date, appointment_time, reason) 
-                  VALUES (?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssss", $patient_name, $doctor_name, $appointment_date, $appointment_time, $reason);
-        
-        if ($stmt->execute()) {
-            $stmt->close();
-            return true;
-        } else {
-            $stmt->close();
-            return false;
-        }
+
+function insertAppointment($conn, $table, $patient_name, $doctor_name, $appointment_date, $appointment_time, $reason) {
+    $query = "INSERT INTO $table (patient_name, doctor_name, appointment_date, appointment_time, reason) 
+              VALUES ('$patient_name', '$doctor_name', '$appointment_date', '$appointment_time', '$reason')";
+    
+
+    $result = $conn->query($query);
+    if ($result === TRUE) {
+        return true;
+    } else {
+        return false;
     }
+}
+
 
     // Show appointments by condition
     function showAppointments($conn, $table, $condition) {

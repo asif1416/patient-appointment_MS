@@ -17,7 +17,7 @@ document.getElementById('updateAppointmentForm').addEventListener('submit', func
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             const response = xhr.responseText;
-            document.getElementById('updateResponse').innerHTML = response;
+            document.getElementById('updateResponse').innerHTML = this.responseText;
 
             // Check if the update was successful
             if (xhr.status === 200 && response.includes("successfully")) {
