@@ -27,8 +27,7 @@ function formValidation() {
 function checkPatientName() {
   var patientName = document.getElementById("patientName").value;
   if (patientName == "") {
-    document.getElementById("patientNameError").innerHTML =
-      "Patient name is required.";
+    document.getElementById("patientNameError").innerHTML = "Patient name is required.";
     return false;
   }
   return true;
@@ -37,8 +36,7 @@ function checkPatientName() {
 function checkAppointmentDate() {
   var appointmentDate = document.getElementById("appointmentDate").value;
   if (appointmentDate == "") {
-    document.getElementById("appointmentDateError").innerHTML =
-      "Appointment date is required.";
+    document.getElementById("appointmentDateError").innerHTML = "Appointment date is required.";
     return false;
   }
   return true;
@@ -47,8 +45,7 @@ function checkAppointmentDate() {
 function checkAppointmentTime() {
   var appointmentTime = document.getElementById("appointmentTime").value;
   if (appointmentTime == "") {
-    document.getElementById("appointmentTimeError").innerHTML =
-      "Appointment time is required.";
+    document.getElementById("appointmentTimeError").innerHTML = "Appointment time is required.";
     return false;
   }
   return true;
@@ -57,23 +54,37 @@ function checkAppointmentTime() {
 function checkReason() {
   var reason = document.getElementById("reason").value;
   if (reason == "") {
-    document.getElementById("reasonError").innerHTML =
-      "Reason for appointment is required.";
+    document.getElementById("reasonError").innerHTML = "Reason for appointment is required.";
     return false;
   }
   return true;
 }
 
-function createAppointment() {
-  var submit = document.getElementById("submit").value;
-  var xttp = new XMLHttpRequest();
+// Submit the form using AJAX without reloading the page
+function submitForm() {
 
-  xttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200)
-      document.getElementById("show").innerHTML = this.responseText;
+
+  // Validate the form fields first
+  if (!formValidation()) {
+      return false;
+  }
+
+  var formData = new FormData(document.getElementById('appointmentForm'));
+
+  var xhr = new XMLHttpRequest();
+  
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          document.getElementById('show').innerHTML = xhr.responseText;
+          document.getElementById('appointmentForm').reset();
+      }
   };
 
-  xttp.open("POST", "../control/insertAppointControl.php?search=" + order, true);
-  xttp.send();
+  xhr.open("POST", "../control/insertAppointControl.php", true);
+
+  xhr.send(formData);
+
+  return false;
 }
+
 

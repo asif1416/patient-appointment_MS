@@ -14,7 +14,7 @@ require '../control/insertAppointControl.php';
 
 <h2>Doctor Appointment Form</h2>
 
-<form action="#" method="POST" onsubmit="return formValidation();">
+<form id="appointmentForm" method="POST" onsubmit="return submitForm();">
     <label for="patientName">Patient Name:</label>
     <input type="text" id="patientName" name="patientName" placeholder="Your name..">
     <span id="patientNameError" style="color:red;"></span> <!-- Error message -->
@@ -38,9 +38,10 @@ require '../control/insertAppointControl.php';
     <textarea id="reason" name="reason"></textarea>
     <span id="reasonError" style="color:red;"></span> <!-- Error message -->
 
-    <button type="submit" name="Submit" id="submit">Book Appointment</button>
+    <button type="submit">Book Appointment</button>
 </form>
 <p id="show"></p>
+
 
 <script src="../js/script.js"></script>
 </body>
