@@ -79,5 +79,3 @@ function submitForm(event) {
   xhttp.open("POST", "../control/insertAppointControl.php", true);
   xhttp.send(formData);
 }
-
-

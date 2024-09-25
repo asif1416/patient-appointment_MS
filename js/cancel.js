@@ -1,4 +1,5 @@
-function cancelAppointment(appointmentId) {
+function cancelAppointment(event, appointmentId) {
+    event.preventDefault(); 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -7,7 +8,11 @@ function cancelAppointment(appointmentId) {
             // Remove the row dynamically
             if (this.responseText.includes("successfully")) {
                 var row = document.getElementById("row-" + appointmentId);
-                row.parentNode.removeChild(row);
+                if (row) {
+                    row.parentNode.removeChild(row);
+                }
+                // Optionally, show a success message
+                alert("Appointment cancelled successfully!");
             }
         }
     };
