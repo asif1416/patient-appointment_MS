@@ -47,29 +47,31 @@ function insertAppointment($conn, $table, $patient_name, $doctor_name, $appointm
         return $conn->query($query);
     }
 
-    // Update an appointment by ID using prepared statements
     function updateAppointmentDateAndTime($conn, $table, $id, $appointment_date, $appointment_time) {
         $query = "UPDATE $table SET 
                   appointment_date = ?, 
                   appointment_time = ?
                   WHERE id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssi", $appointment_date, $appointment_time, $id);
         
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+        $result = $conn->query($query);
+        if ($result === TRUE) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    // Delete appointment by ID using prepared statements
+    // Delete appointment by ID 
     function deleteAppointment($conn, $table, $id) {
         $query = "DELETE FROM $table WHERE id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $id);  // Bind the appointment ID as an integer
+        
 
-        $result = $stmt->execute();
-        $stmt->close();
-        return $result;
+        $result = $conn->query($query);
+        if ($result === TRUE) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 ?>

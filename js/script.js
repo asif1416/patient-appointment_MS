@@ -1,11 +1,9 @@
 function formValidation() {
-  // Clear previous error messages
   document.getElementById("patientNameError").innerHTML = "";
   document.getElementById("appointmentDateError").innerHTML = "";
   document.getElementById("appointmentTimeError").innerHTML = "";
   document.getElementById("reasonError").innerHTML = "";
 
-  // Validate each field
   var isValid = true;
 
   if (!checkPatientName()) {
@@ -21,7 +19,7 @@ function formValidation() {
     isValid = false;
   }
 
-  return isValid; // Return the overall validation result
+  return isValid;
 }
 
 function checkPatientName() {
