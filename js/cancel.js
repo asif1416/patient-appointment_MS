@@ -11,7 +11,6 @@ function cancelAppointment(event, appointmentId) {
                 if (row) {
                     row.parentNode.removeChild(row);
                 }
-                // Optionally, show a success message
                 alert("Appointment cancelled successfully!");
             }
         }

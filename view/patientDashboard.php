@@ -39,7 +39,7 @@ $mydb->closeCon($conn);
     <!-- Pending appointments -->
     <h3>Pending Appointments</h3>
     <?php if (!empty($appointmentsArray)) { ?>
-        <table border="1">
+        <table>
             <tr>
                 <th>Appointment ID</th>
                 <th>Date</th>
@@ -76,7 +76,7 @@ $mydb->closeCon($conn);
     ?>
 
     <?php if (!empty($pastAppointmentsArray)) { ?>
-        <table border="1">
+        <table>
             <tbody>
                 <tr>
                     <th>Appointment ID</th>

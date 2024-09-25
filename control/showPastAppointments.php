@@ -4,7 +4,7 @@ include '../model/mydb.php';
 $mydb = new mydb();
 $conn = $mydb->createConObject();
 $table = "appointments";
-$patientId = $_GET['patientId']; // Assuming patientId is passed via GET
+$patientId = $_GET['patientId']; 
 
 $today = date("Y-m-d");
 $condition = "appointment_date < '$today' AND patient_id = '$patientId'";

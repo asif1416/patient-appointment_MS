@@ -5,7 +5,6 @@ $appointmentDateMsg = "";
 $appointmentTimeMsg = "";
 $hasError = 0;
 
-// Directly handle the AJAX request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $appointmentId = $_POST['appointmentId'] ?? '';
     $appointmentDate = $_POST['appointmentDate'] ?? '';
@@ -26,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = $mydb->createConObject();
         $table = "appointments";
 
-        // Update the appointment in the database
         $update = $mydb->updateAppointmentDateAndTime($conn, $table, $appointmentId, $appointmentDate, $appointmentTime);
 
         if ($update) {
