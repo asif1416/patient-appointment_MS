@@ -5,40 +5,29 @@ $appointmentDateMsg = "";
 $appointmentTimeMsg = "";
 $hasError = 0;
 
-if (isset($_POST["update"])) {
-    // Validate Appointment Date
-    if (empty($_POST["appointmentDate"])) {
+// Directly handle the AJAX request
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $appointmentId = $_POST['appointmentId'] ?? '';
+    $appointmentDate = $_POST['appointmentDate'] ?? '';
+    $appointmentTime = $_POST['appointmentTime'] ?? '';
+
+    if (empty($appointmentDate)) {
         $appointmentDateMsg = "Appointment Date must not be empty";
         $hasError = 1;
-    } else {
-        $appointmentDateMsg = "Appointment Date: " . $_POST["appointmentDate"] . "<br>";
     }
 
-    // Validate Appointment Time
-    if (empty($_POST["appointmentTime"])) {
+    if (empty($appointmentTime)) {
         $appointmentTimeMsg = "Appointment Time must not be empty";
         $hasError = 1;
-    } else {
-        $appointmentTimeMsg = "Appointment Time: " . $_POST["appointmentTime"] . "<br>";
     }
 
-    // If there are no errors, update the appointment date and time in the database
     if ($hasError == 0) {
         $mydb = new mydb();
         $conn = $mydb->createConObject();
-        $table = "appointments"; // Specify the table name
-
-        // Get the appointment ID from the form
-        $id = $_POST["appointmentId"];
+        $table = "appointments";
 
         // Update the appointment in the database
-        $update = $mydb->updateAppointmentDateAndTime(
-            $conn,
-            $table,
-            $id,
-            $_POST["appointmentDate"],
-            $_POST["appointmentTime"]
-        );
+        $update = $mydb->updateAppointmentDateAndTime($conn, $table, $appointmentId, $appointmentDate, $appointmentTime);
 
         if ($update) {
             echo "Appointment date and time updated successfully!";
@@ -46,7 +35,7 @@ if (isset($_POST["update"])) {
             echo "Failed to update appointment.";
         }
 
-        $mydb->closeCon($conn); // Close the connection
+        $mydb->closeCon($conn); 
     } else {
         echo "**Please fill up the required fields**";
     }

@@ -13,21 +13,31 @@ class mydb {
     }
 
     function createConObject() {
-        return new mysqli($this->DBHostName, $this->DBUserName, $this->DBPassword, $this->DBName);
+        $conn = new mysqli($this->DBHostName, $this->DBUserName, $this->DBPassword, $this->DBName);
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        return $conn;
     }
 
     function closeCon($conn) {
         $conn->close();
     }
 
-    // Insert appointment
+    // Insert appointment using prepared statements
     function insertAppointment($conn, $table, $patient_name, $doctor_name, $appointment_date, $appointment_time, $reason) {
         $query = "INSERT INTO $table (patient_name, doctor_name, appointment_date, appointment_time, reason) 
-                  VALUES ('$patient_name', '$doctor_name', '$appointment_date', '$appointment_time', '$reason')";
-        $result = $conn->query($query);
-        if ($result === TRUE) {
+                  VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssss", $patient_name, $doctor_name, $appointment_date, $appointment_time, $reason);
+        
+        if ($stmt->execute()) {
+            $stmt->close();
             return true;
         } else {
+            $stmt->close();
             return false;
         }
     }
@@ -35,33 +45,32 @@ class mydb {
     // Show appointments by condition
     function showAppointments($conn, $table, $condition) {
         $query = "SELECT * FROM $table WHERE $condition";
-        $result = $conn->query($query);
+        return $conn->query($query);
+    }
+
+    // Update an appointment by ID using prepared statements
+    function updateAppointmentDateAndTime($conn, $table, $id, $appointment_date, $appointment_time) {
+        $query = "UPDATE $table SET 
+                  appointment_date = ?, 
+                  appointment_time = ?
+                  WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssi", $appointment_date, $appointment_time, $id);
+        
+        $result = $stmt->execute();
+        $stmt->close();
         return $result;
     }
 
-    // Update an appointment by ID
-    function updateAppointmentDateAndTime($conn, $table, $id, $appointment_date, $appointment_time) {
-        $query = "UPDATE $table SET 
-                  appointment_date = '$appointment_date', 
-                  appointment_time = '$appointment_time'
-                  WHERE id = $id";
-
-        return $conn->query($query) === TRUE;
-    }
-
-    // Delete appointment by ID
+    // Delete appointment by ID using prepared statements
     function deleteAppointment($conn, $table, $id) {
         $query = "DELETE FROM $table WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);  // Bind the appointment ID as an integer
 
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-
-        $stmt->close();  // Close the prepared statement
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }
 }
 ?>

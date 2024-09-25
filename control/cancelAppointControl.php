@@ -1,14 +1,14 @@
 <?php
 include '../model/mydb.php';
 
-// Check if the appointment ID is set
+// Check if the appointment ID is set via POST
 if (isset($_POST['appointmentId'])) {
     $appointmentId = $_POST['appointmentId'];
 
     // Create a database connection
     $mydb = new mydb();
     $conn = $mydb->createConObject();
-    $table = "appointments";  // Use your actual table name
+    $table = "appointments";  // Ensure the table name is correct
 
     // Call the deleteAppointment method
     if ($mydb->deleteAppointment($conn, $table, $appointmentId)) {
